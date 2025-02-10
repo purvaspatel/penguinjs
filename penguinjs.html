@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Text Editor - Penguin🐧</title>
+    <meta name="description"
+        content="A powerful and lightweight Rich Text Editor built from scratch. Try it live and contribute on GitHub!">
+    <meta name="keywords" content="Rich Text Editor, Open Source, HTML Editor, WYSIWYG, Markdown, Web Development">
+    <meta name="author" content="Purva">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Rich Text Editor - Made from Scratch">
+    <meta property="og:description"
+        content="A powerful and lightweight Rich Text Editor built from scratch. Try it live and contribute on GitHub!">
+    <meta property="og:image" content="preview-image.png">
+    <meta property="og:url" content="https://your-editor-site.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="rich-script.js"></script>
+    <link rel="stylesheet" href="rich-style.css">
+    
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+    <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-800">Penguin🐧</h1>
+        <h1 class="text-4xl font-bold text-gray-800"><i>Rich Text Editor</i></h1>
+        <p class="text-gray-600 mt-2">A powerful, lightweight, and customizable text editor.</p>
+        <a href="https://github.com/purvaspatel/rich-text-editor"
+            class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700">
+            View on GitHub
+        </a>
+    </header>
+    <div class="max-w-4xl mx-auto">
+        <div class="editor-container bg-white rounded-lg overflow-hidden">
+            <!-- Toolbar -->
+            <div class="toolbar border-b p-2 flex flex-wrap gap-2 bg-gray-50">
+                <!-- Text Style Controls -->
+                <div class="flex gap-1 border-r pr-2">
+                    <button onclick="execCmd('bold')" class="p-2 rounded hover:bg-gray-200" title="Bold">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button onclick="execCmd('italic')" class="p-2 rounded hover:bg-gray-200" title="Italic">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button onclick="execCmd('underline')" class="p-2 rounded hover:bg-gray-200" title="Underline">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                </div>
+
+                <!-- List Controls -->
+                <div class="flex gap-1 border-r pr-2">
+                    <button onclick="execCmd('insertUnorderedList')" class="p-2 rounded hover:bg-gray-200"
+                        title="Bullet List">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button onclick="execCmd('insertOrderedList')" class="p-2 rounded hover:bg-gray-200"
+                        title="Numbered List">
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+                    <button onclick="execCmd('indent')" class="p-2 rounded hover:bg-gray-200" title="Increase Indent">
+                        <i class="fas fa-indent"></i>
+                    </button>
+                    <button onclick="execCmd('outdent')" class="p-2 rounded hover:bg-gray-200" title="Decrease Indent">
+                        <i class="fas fa-outdent"></i>
+                    </button>
+                </div>
+
+                <!-- Alignment Controls -->
+                <div class="flex gap-1 border-r pr-2">
+                    <button onclick="execCmd('justifyLeft')" class="p-2 rounded hover:bg-gray-200" title="Align Left">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <button onclick="execCmd('justifyCenter')" class="p-2 rounded hover:bg-gray-200"
+                        title="Align Center">
+                        <i class="fas fa-align-center"></i>
+                    </button>
+                    <button onclick="execCmd('justifyRight')" class="p-2 rounded hover:bg-gray-200" title="Align Right">
+                        <i class="fas fa-align-right"></i>
+                    </button>
+                </div>
+
+                <!-- Horizontal Line Button - New Addition -->
+                <div class="flex gap-1 border-r pr-2">
+                    <button onclick="execCmd('insertHorizontalRule')" class="p-2 rounded hover:bg-gray-200"
+                        title="Insert Horizontal Line">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+
+                <!-- Font Controls -->
+                <div class="flex gap-2">
+                    <select onchange="execCommandWithArg('fontName', this.value)" class="border rounded p-1">
+                        <option value="Roboto">Roboto</option>
+                        <option value="Playfair Display">Playfair</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Lora">Lora</option>
+                    </select>
+
+                    <select onchange="execCommandWithArg('fontSize', this.value)" class="border rounded p-1">
+                        <option value="1">Small</option>
+                        <option value="3" selected>Normal</option>
+                        <option value="5">Large</option>
+                        <option value="7">Huge</option>
+                    </select>
+                </div>
+
+                <!-- Image Controls -->
+                <div class="flex gap-1 border-l pl-2">
+                    <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="insertImage(this)">
+                    <button onclick="document.getElementById('imageInput').click()"
+                        class="p-2 rounded hover:bg-gray-200" title="Insert Image">
+                        <i class="fas fa-image"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div id="editor" class="p-4" contenteditable="true"></div>
+        </div>
+        
+    </div>
+    <footer class="text-center mt-6 text-gray-600 flex justify-center items-center gap-4">
+        <p>&copy; 2025 Purva Patel</p>
+        <img
+            src="https://flagcdn.com/16x12/in.png"
+            srcset="https://flagcdn.com/32x24/in.png 2x, https://flagcdn.com/48x36/in.png 3x"
+            width="16"
+            height="12"
+            alt="India">
+        
+        <!-- Font Awesome Icons -->
+        <a href="https://linkedin.com/in/purvapatel24"  class="text-gray-600 hover:text-blue-500">
+            <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://x.com/purvaspatel" target="_blank" class="text-gray-600 hover:text-blue-400">
+            <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://instagram.com/purvvvva" target="_blank" class="text-gray-600 hover:text-pink-500">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://github.com/purvaspatel" target="_blank" class="text-gray-600 hover:text-black">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+    
+    <!-- Font Awesome CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    
+</body>
+
+</html>
